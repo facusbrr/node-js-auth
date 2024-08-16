@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { db } from './src/db/db.js';
-import initial from './src/db/iniciarRoles.js';
+import { initial } from './src/db/iniciarRoles.js';
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
   res.json({ msg: 'Hola' });
 });
 
-const connectToDatabase = async () => {
+const connectDB = async () => {
   try {
     //Conecta a la base de datos MongoDB utilizando solo la URL de conexión.
     await db.mongoose.connect(db.url);
@@ -39,4 +39,4 @@ const connectToDatabase = async () => {
   }
 };
 
-connectToDatabase();
+connectDB();

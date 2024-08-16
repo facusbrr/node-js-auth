@@ -12,7 +12,7 @@ const crearRoles = async (roleName) => {
   }
 };
 
-const initial = async () => {
+export const initial = async () => {
   try {
     const count = await Role.estimatedDocumentCount();
     if (count === 0) {
@@ -24,5 +24,3 @@ const initial = async () => {
     console.error('Error al inicializar roles', err);
   }
 };
-
-export default initial;
