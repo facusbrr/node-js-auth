@@ -1,12 +1,3 @@
-import {
-  createUser,
-  assignRolesToUser,
-  assignDefaultRoleToUser,
-  findUserByUsername,
-  comparePassword,
-  generateToken,
-} from '../helpers/auth.helper.js';
-
 export const signup = async (req, res) => {
   try {
     const user = await createUser(req.body);
@@ -17,9 +8,9 @@ export const signup = async (req, res) => {
       await assignDefaultRoleToUser(user);
     }
 
-    res.send({ message: 'User was registered successfully!' });
+    res.status(201).json({ message: 'Usuario registrado con éxito' });
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -28,15 +19,15 @@ export const signin = async (req, res) => {
     const user = await findUserByUsername(req.body.username);
 
     if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
     }
 
-    const passwordIsValid = comparePassword(req.body.password, user.password);
+    const passwordIsValid = await comparePassword(req.body.password, user.password);
 
     if (!passwordIsValid) {
-      return res.status(401).send({
+      return res.status(401).json({
         accessToken: null,
-        message: 'Invalid Password!',
+        message: 'Contraseña inválida!',
       });
     }
 
@@ -46,7 +37,7 @@ export const signin = async (req, res) => {
       (role) => 'ROLE_' + role.name.toUpperCase()
     );
 
-    res.status(200).send({
+    res.status(200).json({
       id: user._id,
       username: user.username,
       email: user.email,
@@ -54,6 +45,6 @@ export const signin = async (req, res) => {
       accessToken: token,
     });
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

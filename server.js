@@ -10,11 +10,9 @@ const corsOptions = {
   origin: 'http://localhost:4001',
 };
 app.use(cors(corsOptions));
-
-app.use(express.json());
-
-// Middleware para parsear cuerpos de solicitudes URL-encoded
-app.use(express.urlencoded({ extended: true }));
+// Middlewars
+app.use(express.json()); //Para parsear solicitudes JSON
+app.use(express.urlencoded({ extended: true })); // Para parsear cuerpos de solicitudes URL-encoded
 
 // Ruta para probar
 app.get('/', (req, res) => {
