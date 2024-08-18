@@ -1,5 +1,5 @@
-import User from '../models/User';
-import Role from '../models/Role';
+import User from '../models/user.model.js';
+import Role from '../models/role.model.js';
 
 export const getUserById = async (userId) => {
   return await User.findById(userId).exec();

@@ -1,34 +1,38 @@
-import { Roles, User } from '../models';
-import { User } from '../models/user.model';
+import { ROLES, User } from '../models/index.js';
 
-export const checkUserOrEmail = async (req, res, next) => {
+const checkUserOrEmail = async (req, res, next) => {
   try {
-    //User
+    // User
     let user = await User.findOne({ username: req.body.username });
-    if (user) return res.status(400).json({ msg: 'El usuario esta en uso' });
+    if (user) return res.status(400).json({ msg: 'El usuario está en uso' });
 
-    //Email
+    // Email
     user = await User.findOne({ email: req.body.email });
-    if (email) return res.status(400).json({ msg: 'El email esta en uso' });
+    if (user) return res.status(400).json({ msg: 'El email está en uso' });
 
     next();
   } catch (err) {
-    res.status(500).json({ msg: err.msg });
+    res.status(500).json({ msg: err.message });
   }
 };
 
-export const checkRoles = async (req, res, next) => {
+const checkRoles = async (req, res, next) => {
   try {
-    if (req.body.Roles) {
-      for (let i = 0; i < req.body.Roles.length; i++) {
-        if (!Roles.includes(req.body.roles[i]))
+    if (req.body.roles) {
+      for (let i = 0; i < req.body.roles.length; i++) {
+        if (!ROLES.includes(req.body.roles[i]))
           return res
             .status(400)
-            .json({ msg: `El ${req.body.roles[i]} no existe` });
+            .json({ msg: `El rol ${req.body.roles[i]} no existe` });
       }
     }
     next();
   } catch (err) {
-    res.status(500).json({ msg: err.msg });
+    res.status(500).json({ msg: err.message });
   }
+};
+
+export const verifySignUp = {
+  checkUserOrEmail,
+  checkRoles
 };

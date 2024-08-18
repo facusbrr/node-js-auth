@@ -1,20 +1,36 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '../config/auth.config.js';
-import { User, Role } from '../models';
+import { User, Role } from '../models/index.js';
 // Lógica de Negocio: Se encuentra en los servicios o helpers que realizan operaciones específicas.
 export const createUser = async (userData) => {
-  try{
-    const hashedPassword = await bcrypt.hash(userData.userPassword, 8);
+  try {
+    // Validaciones de los datos del usuario
+    if (!userData || typeof userData !== 'object') {
+      throw new Error('Datos de usuario inválidos');
+    }
+
+    const { username, email, password } = userData;
+
+    if (!username || !email || !password) {
+      throw new Error('Faltan datos requeridos: username, email o userPassword');
+    }
+
+    // Hash de la contraseña
+    const hashedPassword = await bcrypt.hash(password, 8);
+
+    // Creación del usuario
     const user = new User({
-      username: userData.username,
-      email: userData.email,
+      username,
+      email,
       password: hashedPassword,
     });
+
+    // Guardar el usuario en la base de datos
     return await user.save();
-  } catch (err){
-    console.error('Error al crear el usuario: ', err);
-    throw new Error('Error al crear usuario: ' + err.msg)
+  } catch (err) {
+    console.error('Error al crear el usuario: ', err.message);
+    throw new Error('Error al crear usuario: ' + err.message);
   }
 };
 

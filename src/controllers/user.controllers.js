@@ -1,5 +1,5 @@
 // Define acceso a contendio basado en roles de usuario. Responden a solicitudes HTTP y devuelven contenido específico
-export function allAcces(req, res)  {
+export function allAccess(req, res)  {
     res.status(200).json({msg: "Contenido Público"});
 }
 export function userContent(req, res)  {

@@ -1,2 +1,2 @@
-export * from './authJwt';
-export * from './verifySignUp';
+export * from './authJwt.js';
+export * from './verifySignUp.js';

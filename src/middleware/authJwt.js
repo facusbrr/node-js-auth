@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config/auth.config.js';
 import { getUserById, getUserRoles } from '../helpers/user.helper.js';
 
-export const verifyToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const token = req.headers['x-access-token'];
 
   if (!token) {
@@ -18,7 +18,7 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
-export const isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
     const user = await getUserById(req.userId);
     const roles = await getUserRoles(user);
@@ -33,7 +33,7 @@ export const isAdmin = async (req, res, next) => {
   }
 };
 
-export const isModerator = async (req, res, next) => {
+const isModerator = async (req, res, next) => {
   try {
     const user = await getUserById(req.userId);
     const roles = await getUserRoles(user);
@@ -47,3 +47,9 @@ export const isModerator = async (req, res, next) => {
     res.status(500).json({ msg: err.msg });
   }
 };
+
+export const authJwt = {
+  verifyToken,
+  isAdmin,
+  isModerator
+}

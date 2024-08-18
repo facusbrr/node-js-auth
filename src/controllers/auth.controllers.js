@@ -1,3 +1,5 @@
+import { createUser, assignRolesToUser, assignDefaultRoleToUser, findUserByUsername, comparePassword, generateToken } from '../helpers/auth.helper.js';
+
 export const signup = async (req, res) => {
   try {
     const user = await createUser(req.body);

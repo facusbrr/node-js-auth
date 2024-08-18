@@ -23,4 +23,6 @@ const userSchema = new Schema({
 });
 
 // Crear el modelo User usando el esquema definido
-export const User = model('User', userSchema);
+const User = model('User', userSchema);
+
+export default User;
